@@ -129,6 +129,7 @@ _array =
 		["Create poll (enter question in inputfield)", {
 			[parseText(_inputText)] call admin_create_poll;
 		}],
+
 		
 		["Self Teleport", {
 				hint "Click on the map to Teleport!";

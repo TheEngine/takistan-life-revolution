@@ -125,6 +125,9 @@ keyboard_restrained_check = {
 	([player, "restrained"] call player_get_bool)
 };
 
+keyboard_agony_check = {
+		player getVariable ["FA_inAgony", false]
+	};
 
 keyboard_interact_handler = {
 	private["_ctrl"];
@@ -135,7 +138,7 @@ keyboard_interact_handler = {
 	if (dialog ) exitWith {closeDialog 0; false};
 	if (arrested) exitWith{ false };
 
-	private ["_civ", "_handled", "_i"];
+	private ["_civ", "_handled", "_i", "_range", "_dirV", "_pos", "_posFind", "_men", "_atms", "_civ", "_atm"];
 
 	//INTERACTIONS WITH PLAYERS, AI, ATM
 	for [{_i=1}, {_i < 3}, {_i=_i+1}] do {
@@ -192,7 +195,8 @@ keyboard_interact_handler = {
 		};
 		false
 	};
-
+	
+	private["_vcl"];
 	_vcl  = vehicle player;
 
 	if(_vcl != player) exitWith {
@@ -266,6 +270,7 @@ keyboard_retributions_handler = {
 keyboard_surrender_handler = {
 	if(!INV_shortcuts) exitWith {false};
 	if(keyblock || vehicle player != player) exitWith {false};
+	if !(player getVariable ["FA_healEnabled",true])exitwith{false};
 	keyblock=true; [] spawn {
 		sleep 2; 
 		keyblock=false;
@@ -277,6 +282,7 @@ keyboard_surrender_handler = {
 keyboard_switch_normal_handler = {
 	if(!INV_shortcuts) exitWith {false};	
 	if(keyblock) exitWith {false};
+	if !(player getVariable ["FA_healEnabled",true])exitwith{false};
 	keyblock=true; 
 	[] spawn {
 		sleep 2; 
@@ -309,15 +315,11 @@ keyboard_cop_menu_handler = {
 	if (not(iscop)) exitWith {false};
 	if ([player] call player_get_dead) exitWith {};
 	
-	private["_inVehicle"];
+	private["_inVehicle", "_menuS"];
 	_inVehicle = (vehicle player != player);
-	
-	if (not(_inVehicle)) then {
-		[0,0,0,["copmenulite"]] execVM "maindialogs.sqf";
-	}
-	else {
-		[0,0,0,["copmenu"]] execVM "maindialogs.sqf";
-	};
+
+	_menuS = if (!_inVehicle)then{"copmenulite"}else{"copmenu"};
+	[0,0,0,[_menuS]] execVM "maindialogs.sqf";
 	
 	true
 };
@@ -378,7 +380,7 @@ keyboard_forward_tuning_handler = {
 };
 
 keyboard_vehicle_nitro_handler = {
-	private["_nos", "_vcl", "_spd", "_vel"];
+	private["_nos", "_vcl", "_spd", "_vel", "_fuel"];
 	_vcl = vehicle player;
 	
 	_nos = _vcl getvariable "nitro";
@@ -411,7 +413,7 @@ keyboard_overlapping_keys = [];
 
 
 KeyUp_handler = {
-	private["_handled"];
+	private["_handled", "_disp", "_key", "_shift", "_ctrl", "_alt"];
 
 	_disp	= _this select 0;
 	_key    = _this select 1;
@@ -425,8 +427,8 @@ KeyUp_handler = {
 		lookingAround = false;
 	};
 	
-	if ((call keyboard_stunned_check) || (call keyboard_restrained_check)) exitWith {
-		not(_key in (call keyboard_get_stunned_allowed_keys))
+	if ((call keyboard_stunned_check) || (call keyboard_restrained_check) || (call keyboard_agony_check)) exitWith {
+		!(_key in (call keyboard_get_stunned_allowed_keys))
 	};
 	
 	private["_inVehicle"];
@@ -501,7 +503,7 @@ KeyUp_handler = {
 
 lookingAround = false;
 KeyDown_handler = {
-	private["_handled"];
+	private["_handled", "_disp", "_key", "_shift", "_ctrl", "_alt"];
 	_handled = false;
 	
 	_disp	= _this select 0;
@@ -516,8 +518,8 @@ KeyDown_handler = {
 	};
 	
 	
-	if ((call keyboard_stunned_check) || (call keyboard_restrained_check)) exitWith {
-		not(_key in (call keyboard_get_stunned_allowed_keys))
+	if ( (call keyboard_stunned_check) || (call keyboard_restrained_check) || (call keyboard_agony_check) ) exitWith {
+		!(_key in (call keyboard_get_stunned_allowed_keys))
 	};
 	
 	private["_inVehicle", "_isDriver"];

@@ -1422,20 +1422,40 @@ player_load_side_position = {
 
 
 
-
 player_save_side_damage = {
 	private["_player"];
 	_player = _this select 0;
 	if (not([_player] call player_exists)) exitWith {};
 	
-	private["_side"];
+	private["_side", "_damage", "_inAgony", "_total", "_head", "_body", "_legs", "_bloodloss", "_bloodlosspersecond"];
+		
 	_side = ([_player] call player_side);
 	_side = toLower(str(_side));
 	
-	private["_damage"];
 	_damage = damage _player;
-	//diag_log format["Saving damage %1", _damage];
+	
+	_inAgony = _player getVariable ["FA_inAgony", false];
+	
+	_total = _unit getVariable ["", 0];
+	_head = _player getVariable ["head_hit", 0];
+	_body = _player getVariable ["body", 0];
+	_hands = _player getVariable ["hands", 0];
+	_legs = _player getVariable ["legs", 0];
+	_bloodloss = _player getVariable ["bloodloss", 0];
+	_bloodlosspersecond	= _player getVariable ["bloodlossPerSecond", 0];
+	
 	[_player, format["damage_%1", _side], _damage] call player_set_scalar;
+	
+	[_player, format["agony_%1", _side], _inAgony] call player_set_bool;
+	
+	[_player, format["total_%1", _side], _total] call player_set_scalar;
+	[_player, format["head_%1", _side], _head] call player_set_scalar;
+	[_player, format["body_%1", _side], _body] call player_set_scalar;
+	[_player, format["hands_%1", _side], _hands] call player_set_scalar;
+	[_player, format["legs_%1", _side], _legs] call player_set_scalar;
+	[_player, format["bl_%1", _side], _bloodloss] call player_set_scalar;
+	[_player, format["blps_%1", _side], _bloodlosspersecond] call player_set_scalar;
+	
 };
 
 player_load_side_damage = {
@@ -1443,16 +1463,43 @@ player_load_side_damage = {
 	_player = _this select 0;
 	if (not([_player] call player_exists)) exitWith {};
 	
-	private["_side"];
+	private["_side", "_damage", "_inAgony", "_total", "_head", "_body", "_legs", "_bloodloss", "_bloodlosspersecond"];
+	
 	_side = ([_player] call player_side);
 	_side = toLower(str(_side));
-	
-	private["_damage"];
+
 	_damage = [_player, format["damage_%1", _side]] call player_get_scalar;
 	
-	if (_damage < 0 ||  _damage > 1) exitWith {};
+	_inAgony = [_player, format["agony_%1", _side]] call player_get_bool;
+	
+	_total = [_player, format["total_%1", _side]] call player_get_scalar;
+	_head = [_player, format["head_%1", _side]] call player_get_scalar;
+	_body = [_player, format["body_%1", _side]] call player_get_scalar;
+	_hands = [_player, format["hands_%1", _side]] call player_get_scalar;
+	_legs = [_player, format["legs_%1", _side]] call player_get_scalar;
+	_bloodloss = [_player, format["legs_%1", _side]] call player_get_scalar;
+	_bloodlosspersecond	= [_player, format["blps_%1", _side]] call player_get_scalar;
+	
+	_player setVariable ["FA_inAgony", _inAgony, true];
 	
 	_player setDamage _damage;
+	
+	_player setVariable ["", _total, true];
+	_player setVariable ["head_hit", _head, true];
+	_player setVariable ["body", _body, true];
+	_player setVariable ["hands", _hands, true];
+	_player setVariable ["legs", _legs, true];
+	_player setVariable ["bloodloss", _bloodloss, true];
+	_player setVariable ["bloodlossPerSecond", _bloodlosspersecond, true];
+	
+	_player setHit["", _total];
+	_player setHit["head_hit", _head];
+	_player setHit["body", _body];
+	_player setHit["hands", _hands];
+	_player setHit["legs", _legs];
+	_player setHit["bloodloss", _bloodloss];
+	_player setHit["bloodlossPerSecond", _bloodlosspersecond];
+	
 };
 
 
@@ -1479,6 +1526,7 @@ player_load_side_vehicle = {
 	
 	private["_vehicle"];
 	_vehicle = [_vehicle_name, _vehicle_class] call vehicle_recreate;
+	
 	if (isNil "_vehicle") exitWith {false};
 	
 	private["_active_driver_uid", "_saved_driver_uid", "_player_uid", "_distance"];
@@ -2037,15 +2085,6 @@ player_reset_stats = {
 
 
 
-
-
-
-
-
-
-
-
-
 player_init_arrays = {
 	while {true} do {
 		private["_complete"];
@@ -2352,7 +2391,9 @@ player_continuity = {
 	private["_player"];
 	_player = player;
 	[_player] call player_reset_gear;
-
+	
+	[] call compile preprocessFileLineNumbers "Awesome\FA\firstAid_Init.sqf";
+	
 	[] call C_libraries;
 	_player = [] call C_connect_client;
 	
@@ -2676,6 +2717,8 @@ player_handle_mprespawn = {
 	private["_unit", "_corpse"];
 	_unit = _this select 0;
 	_corpse = _this select 1;
+	
+	[_unit] spawn A_fnc_FA_init;
 	
 	if (not(str(_unit) == str(player))) exitWith {};
 	[_unit, false] call player_spawn;

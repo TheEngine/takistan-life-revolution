@@ -1,22 +1,22 @@
+#define ExecSQF(FILE) [] call compile preprocessFileLineNumbers FILE
+
 enableSaving [false, false];
 
 isClient = !isServer || (isServer && !isDedicated);
 
 sleep 0.5;
 
-_h = [] execVM "Awesome\Functions\encodingfunctions.sqf";
-waitUntil{scriptDone _h};
+ExecSQF("Awesome\Functions\debug.sqf");
+ExecSQF("Awesome\Scripts\white_black_list.sqf");
+
+ExecSQF("Awesome\Functions\encodingfunctions.sqf");
 
 if (isServer) then {
-	_h = [] execVM "Awesome\MyStats\persist.sqf";
-	waitUntil{scriptDone _h};
+	ExecSQF("Awesome\MyStats\persist.sqf");
 };
 
-_h = [] execVM "Awesome\Functions\time_functions.sqf";
-waitUntil{scriptDone _h};
-
-_h = [] execVM "Awesome\MyStats\functions.sqf";
-waitUntil{scriptDone _h};
+ExecSQF("Awesome\Functions\time_functions.sqf");
+ExecSQF("Awesome\MyStats\functions.sqf");
 
 WEST setFriend [EAST, 0];
 WEST setFriend [RESISTANCE, 0];
@@ -28,9 +28,8 @@ CIVILIAN setFriend [WEST, 0];
 CIVILIAN setFriend [EAST, 0];
 CIVILIAN setFriend [RESISTANCE, 0];
 
-_h = [] execVM "Awesome\Scripts\optimize_1.sqf";
-waitUntil{scriptDone _h};
-	
+ExecSQF("Awesome\Scripts\optimize_1.sqf");
+
 debug  = false;
 
 ["init"] execVM "bombs.sqf";
@@ -40,11 +39,9 @@ if (isServer) then {
 };
 
 
+ExecSQF("Awesome\Functions\interaction.sqf");
+ExecSQF("triggers.sqf");
 
-_h = [] execVM "Awesome\Functions\interaction.sqf";
-waitUntil{scriptDone _h};
-
-call compile preprocessfile "triggers.sqf";
 
 if (isClient) then {
 	[] execVM "briefing.sqf";
@@ -54,65 +51,26 @@ if(isServer) then {
 	execVM "targets.sqf";
 };
 
-_h = [] execVM "broadcast.sqf";
-waitUntil{scriptDone  _h};
-
-_h = []	execVM "customfunctions.sqf";
-waitUntil{scriptDone  _h};
-
-_h = []	execVM "strfuncs.sqf";
-waitUntil{scriptDone  _h};
-
-_h = []	execVM "1007210.sqf";
-waitUntil{scriptDone  _h};
-
-_h = [] execVM "4422894.sqf";
-waitUntil{scriptDone _h};
-
-_h = []	execVM "miscfunctions.sqf";
-waitUntil{scriptDone _h};
-
-_h = [] execVM "Awesome\Functions\quicksort.sqf";
-waitUntil{scriptDone _h};
-
-_h = [] execVM "INVvars.sqf";
-waituntil{scriptDone  _h};
-
-_h = [] execVM "Awesome\Shops\functions.sqf";
-
-_h = [] execVM "Awesome\Functions\bankfunctions.sqf";
-waitUntil{scriptDone _h};
-
-_h = [] execVM "bankexec.sqf";
-waitUntil{scriptDone  _h};
-
-_h = []execVM "execlotto.sqf";
-waitUntil{scriptDone  _h};
-
-_h = [] execVM "initWPmissions.sqf";
-waitUntil{scriptDone  _h};
-
-_h = [] execVM "gfx.sqf";
-waitUntil{scriptDone  _h};
-
-_h = [] execVM "animList.sqf";
-waitUntil{scriptDone  _h};
-
-_h = [] execVM "variables.sqf";
-waitUntil{scriptDone  _h};
-
-_h = [] execVM "Awesome\Functions\money_functions.sqf"; 
-waitUntil{scriptDone _h};
-
-_h = [] execVM "Awesome\Functions\gangfunctions.sqf";
-waitUntil{scriptDone _h};
-
-// Starts up Awesome scripts
-_h = [] execVM "Awesome\init.sqf";
-waitUntil{scriptDone _h};
-
-_h = [] execVM "setPitchBank.sqf";
-waitUntil {scriptDone _h};
+ExecSQF("broadcast.sqf");
+ExecSQF("customfunctions.sqf");
+ExecSQF("strfuncs.sqf");
+ExecSQF("1007210.sqf");
+ExecSQF("4422894.sqf");
+ExecSQF("miscfunctions.sqf");
+ExecSQF("Awesome\Functions\quicksort.sqf");
+ExecSQF("INVvars.sqf");
+ExecSQF("Awesome\Shops\functions.sqf");
+ExecSQF("Awesome\Functions\bankfunctions.sqf");
+ExecSQF("bankexec.sqf");
+ExecSQF("execlotto.sqf");
+ExecSQF("initWPmissions.sqf");
+ExecSQF("gfx.sqf");
+ExecSQF("animList.sqf");
+ExecSQF("variables.sqf");
+ExecSQF("Awesome\Functions\money_functions.sqf");
+ExecSQF("Awesome\Functions\gangfunctions.sqf");
+ExecSQF("Awesome\init.sqf");
+ExecSQF("setPitchBank.sqf");
 
 publicvariable "station1robbed";
 publicvariable "station2robbed";
@@ -141,9 +99,6 @@ if(isClient) then {
 	["client"] execVM "bombs.sqf";
 	[] execVM "Awesome\Functions\factory_functions.sqf";
 
-	player addEventHandler ["fired", {_this execVM "Awesome\EH\EH_fired.sqf"}];
-	player addEventHandler ["handleDamage", {_this execVM "Awesome\EH\EH_handledamage.sqf"}];
-	player addEventHandler ["WeaponAssembled", {_this execVM "Awesome\EH\EH_weaponassembled.sqf"}];
 	[] execVM "onKeyPress.sqf";
 
 };
@@ -184,7 +139,6 @@ if (isServer) then {
 
 
 // Define Variables
-
 gcrsrope1 = "none";
 gcrsrope2 = "none";
 gcrsrope3 = "none";
@@ -210,8 +164,6 @@ gcrspilotvehicle = "none";
 gcrsrapelvehiclearray = ["MH6J_EP1", "UH1H_TK_GUE_EP1", "UH60M_EP1", "BAF_Merlin_HC3_D", "CH_47F_EP1", "Mi17_UN_CDF_EP1", "Ka60_PMC"];
 gcrsrapelheloarray = [];
 gcrsplayerveharray = [];
-
-// End GeneralCarver's Rapel Script Init Scripting
 
 //// Start the Drop Cargo Script
 execVM "BTK\Cargo Drop\Start.sqf";

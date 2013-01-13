@@ -1,11 +1,8 @@
 P_init =
 {
-private ["_h", "_n"];
+private ["_n"];
 
-	_h = [] execVM "Awesome\Paint\P_dialog_functions.sqf";
-	waituntil {scriptDone _h};
-
-
+	[] call compile preProcessFileLineNumbers "Awesome\Paint\P_dialog_functions.sqf";
 
 	P_T_Styles =
 	[
@@ -88,4 +85,4 @@ private ["_h", "_n"];
 	
 };
 
-
+[] spawn P_init;

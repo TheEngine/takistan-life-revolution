@@ -1,30 +1,33 @@
-stun_shot_close = {
-	private ["_unit", "_shooter", "_selection", "_damage", "_armor", "_veh", "_inveh"];
 
-	_unit = _this select 0;
-	_shooter = _this select 1;
-	_selection = _this select 2;
-	_damage = _this select 3;
-	_armor = _this select 4;
-	_veh = _this select 5;
-	_inveh = _this select 6;
-	_distance = _this select 7;
+stun_shot_close = {
+	private ["_unit", "_shooter", "_selection", "_damage", "_armor", "_veh", "_inveh", "_distance"];
+
+	_unit 			= _this select 0;
+	_shooter		= _this select 1;
+	_selection 		= _this select 2;
+	_damage			= _this select 3;
+	_armor 			= _this select 4;
+	_veh 			= _this select 5;
+	_inveh 			= _this select 6;
+	_distance		= _this select 7;
 	
+	
+
 	[_unit, _shooter] spawn stun_broadcast;
 	
 	_armor = _unit getVariable "stun_armor";
 	
-	if (typeName _armor != "STRING" ) then {
+	if ( typeName _armor != "STRING" ) then {
 		_unit setVariable ["stun_armor", "none", true];
 		_armor = _unit getVariable "stun_armor";
 	};
 	
-	if (isNil "_armor" ) then {
+	if ( isNil "_armor" ) then {
 		_unit setVariable ["stun_armor", "none", true];
 		_armor = _unit getVariable "stun_armor";
 	};
 	
-	if ((_armor != "full") && (_armor != "light") ) then {
+	if ( (_armor != "full") && (_armor != "light") ) then {
 		StunActiveTime = StunActiveTime + StunTimePerHit;
 
 		if (_inveh) then {
@@ -33,9 +36,9 @@ stun_shot_close = {
 		};
 					
 		if ([_unit] call is_prone) then {
-			format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_unit] call broadcast;
+			[nil,_unit,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 		} else {
-			format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_unit] call broadcast;
+			[nil,_unit,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 		};
 				
 		if (isPlayer _unit) then {
@@ -46,7 +49,7 @@ stun_shot_close = {
 		};
 
 	} else { if (not(_armor  == "full") && (_armor == "light")) then {
-		if (((_selection != "body") ) && (_damage > 1) ) exitWith {				
+		if ( ( (_selection != "body") ) && (_damage > 1) ) exitWith {				
 			StunActiveTime = StunActiveTime + StunTimePerHit;
 			
 			if (_inveh) then {
@@ -55,9 +58,9 @@ stun_shot_close = {
 			};
 
 			if ([_unit] call is_prone) then {
-				format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_unit] call broadcast;
+				[nil,_unit,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 			} else {
-				format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO";',_unit] call broadcast;
+				[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO"] call RE;
 			};
 
 			if (isPlayer _unit) then {
@@ -70,34 +73,34 @@ stun_shot_close = {
 };
 
 stun_shot_far = {
-	private ["_unit", "_shooter", "_selection", "_damage", "_armor", "_veh", "_inveh"];
+	private ["_unit", "_shooter", "_selection", "_damage", "_armor", "_veh", "_inveh", "_distance"];
 
-	_unit = _this select 0;
-	_shooter = _this select 1;
-	_selection = _this select 2;
-	_damage = _this select 3;
-	_armor = _this select 4;
-	_veh = _this select 5;
-	_inveh = _this select 6;
-	_distance = _this select 7;
+	_unit 			= _this select 0;
+	_shooter		= _this select 1;
+	_selection 		= _this select 2;
+	_damage			= _this select 3;
+	_armor 			= _this select 4;
+	_veh 			= _this select 5;
+	_inveh 			= _this select 6;
+	_distance		= _this select 7;
 	
-	liafu = true;
+	
 
 	[_unit, _shooter] spawn stun_broadcast;
 	
 	_armor = _unit getVariable "stun_armor";
 	
-	if (typeName _armor != "STRING" ) then {
+	if ( typeName _armor != "STRING" ) then {
 		_unit setVariable ["stun_armor", "none", true];
 		_armor = _unit getVariable "stun_armor";
 	};
 	
-	if (isNil "_armor" ) then {
+	if ( isNil "_armor" ) then {
 		_unit setVariable ["stun_armor", "none", true];
 		_armor = _unit getVariable "stun_armor";
 	};
 	
-	if ((_armor != "full") && (_armor != "light") ) then {
+	if ( (_armor != "full") && (_armor != "light") ) then {
 		StunActiveTime = StunActiveTime + StunTimelight;
 			
 		if (_inveh) then {	
@@ -106,9 +109,9 @@ stun_shot_far = {
 		};
 
 		if ([_unit] call is_prone) then {
-			format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_unit] call broadcast;
+			[nil,_unit,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 		} else {
-			format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO";',_unit] call broadcast;
+			[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO"] call RE;
 		};
 
 		if (isPlayer _unit) then {
@@ -126,9 +129,9 @@ stun_shot_far = {
 			};
 					
 			if ([_unit] call is_prone) then {
-				format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_unit] call broadcast;
+				[nil,_unit,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 			} else {
-				format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO";',_unit] call broadcast;
+				[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO"] call RE;
 			};
 
 			if (isPlayer _unit) then {
@@ -143,6 +146,8 @@ stun_shot_far = {
 
 stun_pistol_hit = {
 	private ["_unit", "_man", "_time"];
+	
+	
 	
 	_man = _this select 0;
 	_unit = _this select 1;
@@ -165,8 +170,8 @@ stun_pistol = { _this spawn {
 	if (stunning) exitwith {};
 	stunning = true;
 	
-	format['%1 switchmove "AwopPercMstpSgthWnonDnon_end";',_unit] call broadcast;
-
+	[nil,_unit,rSWITCHMOVE,"AwopPercMstpSgthWnonDnon_end"] call RE;
+	
 	sleep 0.3;
 	
 	if (isNull _man) exitwith {stunning = false;};
@@ -188,14 +193,16 @@ stun_pistol = { _this spawn {
 
 stun_pistol_front = {
 	private ["_unit", "_man"];
-
-	_unit = _this select 0;
-	_man = _this select 1;
+	
+	
+	
+	_unit	= _this select 0;
+	_man	= _this select 1;
 	
 	if ([_man] call is_prone) then {
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 	} else {
-		format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 	};
 	
 	if (isPlayer _man) then {
@@ -205,16 +212,20 @@ stun_pistol_front = {
 	};
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 stun_pistol_back = {
 	private ["_unit", "_man"];
 	
-	_unit = _this select 0;
-	_man = _this select 1;
+	
+	
+	_unit	= _this select 0;
+	_man	= _this select 1;
 	
 	if ([_man] call is_prone) then {
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 	} else {
-		format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 	};
 	
 	if (isPlayer _man) then {
@@ -226,6 +237,8 @@ stun_pistol_back = {
 
 stun_rifle_hit = {
 	private ["_unit", "_man", "_time"];
+	
+	
 	
 	_man = _this select 0;
 	_unit = _this select 1;
@@ -248,7 +261,7 @@ stun_rifle = { _this spawn {
 	if (stunning) exitwith {};
 	stunning = true;
 	
-	format['%1 switchmove "AmelPercMstpSlowWrflDnon_StrokeGun";',_unit] call broadcast;
+	[nil,_unit,rSWITCHMOVE,"AmelPercMstpSlowWrflDnon_StrokeGun"] call RE;
 	
 	sleep 1.2;
 
@@ -273,15 +286,17 @@ stun_rifle = { _this spawn {
 stun_rifle_front = {
 	private ["_unit", "_man"];
 	
-	_unit = _this select 0;
-	_man = _this select 1;
+	
+	
+	_unit	= _this select 0;
+	_man	= _this select 1;
 	
 	if ([_man] call is_prone) then {
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 	} else {
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH7BRICHO"] call RE;
 		sleep 1.3;
-		format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 	};
 	
 	if (isPlayer _man) then {
@@ -291,16 +306,19 @@ stun_rifle_front = {
 	};
 };
 
+
 stun_rifle_back = {
 	private ["_unit", "_man"];
 	
-	_unit = _this select 0;
-	_man = _this select 1;
+	
+	
+	_unit	= _this select 0;
+	_man	= _this select 1;
 	
 	if ([_man] call is_prone) then {
-			format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+			[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 	} else {
-		format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 	};
 	
 	if (isPlayer _man) then {
@@ -308,10 +326,13 @@ stun_rifle_back = {
 	} else {
 		format[ "if(isServer) then {[%1, %2] spawn stun_effects_AI;};", _man, stunrifleback ] call broadcast;
 	};
+
 };
 
 stun_hands_hit = {
 	private ["_unit", "_man", "_time"];
+	
+	
 	
 	_man = _this select 0;
 	_unit = _this select 1;
@@ -324,6 +345,7 @@ stun_hands_hit = {
 	
 	[_unit] spawn stun_effects_full;
 };
+
 
 stun_hands = { _this spawn {
 	private ["_man", "_unit", "_damage", "_pdamage", "_random", "_dir"];
@@ -361,78 +383,81 @@ stun_hands = { _this spawn {
 stun_hands_prone = {
 	private ["_unit", "_man", "_damage", "_pdamage", "_random", "_stun", "_idamage"];
 	
-	_unit = _this select 0;
-	_man = _this select 1;
-	_damage	= _this select 2;
-	_pdamage = _this select 3;
-	_random	= _this select 4;
+	
+	
+	_unit		= _this select 0;
+	_man		= _this select 1;
+	_damage		= _this select 2;
+	_pdamage	= _this select 3;
+	_random		= _this select 4;
 	
 	_stun		= 0;
 	
 	if ((_random <= 100) && (_random >= 90)) then {	
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER1";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER1"] call RE;
 		sleep M_punch;
+		
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if ((_man distance _unit) > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER2";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER2"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER3";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER3"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 		sleep M_punch;
 		if (_man distance _unit > 2) exitwith {stunning = false;};
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 		
 		_idamage =  (M_prone_crit);	
 		_stun = stunpronecrit;		
 	};
 		
 	if ((_random < 90) && (_random >= 50)) then {
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER1";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER1"] call RE;
 		sleep M_punch;
 
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if(_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER2";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER2"] call RE;
 		sleep M_punch;
 
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if(_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 					
 		_idamage = (M_prone_hev);
 		_stun = stunpronehev;
 	};
 		
 	if ((_random < 50) && (_random >= 0)) then {
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER3";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER3"] call RE;
 		sleep M_punch;
 			
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 			
-		format['%1 switchmove "AdthPpneMstpSlowWrflDf_1";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AdthPpneMstpSlowWrflDf_1"] call RE;
 			
 		_idamage = (M_prone_reg);
 		_stun = stunpronereg;
@@ -458,6 +483,8 @@ stun_hands_prone = {
 stun_hands_front = {
 	private ["_unit", "_man", "_damage", "_pdamage", "_random", "_stun", "_idamage"];
 	
+	
+	
 	_unit		= _this select 0;
 	_man		= _this select 1;
 	_damage		= _this select 2;
@@ -467,70 +494,70 @@ stun_hands_front = {
 	_stun		= 0;
 	
 	if ((_random <= 100) && (_random >= 90)) then {	
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER1";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER1"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH1";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER2";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH1"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER2"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH2";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER3";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH2"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER3"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH3HARD";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH3HARD"] call RE;
 		sleep M_punch;
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		
-		format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 		
 		_idamage =  (M_front_crit);	
 		_stun = stunfrontcrit;
 	};		
 		
 	if ((_random < 90) && (_random >= 50)) then {	
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER1";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER1"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH1";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER2";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH1"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER2"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
+
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH2"] call RE;
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH2";',_man] call broadcast;
-				
 		_idamage = (M_front_hev);
 		_stun = stunfronthev;
 	};
 		
 	if ((_random < 50) && (_random >= 0)) then {
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER3";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER3"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
-		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH3HARD";',_man] call broadcast;
+	
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH3HARD"] call RE;
 		
 		_idamage = (M_front_reg);
 		_stun = stunfrontreg;	
@@ -553,75 +580,79 @@ stun_hands_front = {
 	stunning = false;
 };
 
+
 stun_hands_back = {
 	private ["_unit", "_man", "_damage", "_pdamage", "_random", "_stun", "_idamage"];
 	
-	_unit = _this select 0;
-	_man = _this select 1;
-	_damage	= _this select 2;
-	_pdamage = _this select 3;
-	_random	 = _this select 4;
-	_stun = 0;
+	
+	
+	_unit		= _this select 0;
+	_man		= _this select 1;
+	_damage		= _this select 2;
+	_pdamage	= _this select 3;
+	_random		= _this select 4;
+	
+	_stun		= 0;
 	
 	if ((_random <= 100) && (_random >= 50)) then {	
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER1";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER1"] call RE;
+		sleep M_punch;
+		
+		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
+		if (_man distance _unit > 2) exitwith {stunning = false;};
+		if (_pdamage != damage _unit) exitwith {stunning = false;};
+
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH2"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER2"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH2";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER2";',_unit] call broadcast;
-		sleep M_punch;
-		
-		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
-		if (_man distance _unit > 2) exitwith {stunning = false;};
-		if (_pdamage != damage _unit) exitwith {stunning = false;};
-		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH4";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER3";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH4"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER3"] call RE;
 		sleep M_punch;
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
-		format['%1 switchmove "adthpercmstpslowwrfldnon_2";',_man] call broadcast;
-		format['%1 switchmove "adthpercmstpslowwrfldnon_4";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_2"] call RE;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_4"] call RE;
 			
 		_idamage = (M_back_crit);
 		_stun = stunbackcrit;				
 	};
 	
 	if ((_random < 50) && (_random >= 30)) then {		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER1";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER1"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH5HARD";',_man] call broadcast;
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER2";',_unit] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH5HARD"] call RE;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER2"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_ZASAH4";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_ZASAH4"] call RE;
 				
 		_idamage = (M_back_hev);
 		_stun = stunbackhev;
 	};		
 	
 	if ((_random < 30) && (_random >= 0)) then {
-		format['%1 switchmove "AMELPERCMSTPSNONWNONDNON_AMATERUDER3";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"AMELPERCMSTPSNONWNONDNON_AMATERUDER3"] call RE;
 		sleep M_punch;
 		
 		if ([_unit, "isstunned"] call player_get_bool) exitwith {stunning = false;};
 		if (_man distance _unit > 2) exitwith {stunning = false;};
 		if (_pdamage != damage _unit) exitwith {stunning = false;};
 		
-		format['%1 switchmove "adthpercmstpslowwrfldnon_2";',_man] call broadcast;
+		[nil,_man,rSWITCHMOVE,"adthpercmstpslowwrfldnon_2"] call RE;
 		
 		_idamage = (M_back_reg);
 		_stun = stunbackreg;
@@ -647,6 +678,8 @@ stun_hands_back = {
 stun_broad_light = {
 	private ["_unit", "_attacker"];
 	
+	
+	
 	_unit = _this select 0;
 	_attacker = _this select 1;
 	
@@ -655,6 +688,8 @@ stun_broad_light = {
 
 stun_broadcast = {
 	private ["_unit", "_shooter"];
+	
+	
 	
 	if (stun_broadcasting) exitwith {};
 	
@@ -671,9 +706,12 @@ stun_broadcast = {
 	stun_broadcasting = false;
 };
 
+
 stun_effects_AI = {
 	private ["_unit", "_time"];
 
+	
+	
 	_unit = _this select 0;
 	_time = _this select 1;
 	
@@ -681,12 +719,14 @@ stun_effects_AI = {
 
 	sleep _time;
 
-	format['%1 switchmove "amovppnemstpsnonwnondnon";',_unit] call broadcast;
+	[nil,_unit,rSWITCHMOVE,"amovppnemstpsnonwnondnon"] call RE;
 };
 
 stun_effects_light = {
 	private ["_unit", "_time"];
-
+	
+	
+	
 	_unit = _this select 0;
 	_time = _this select 1;
 	
@@ -718,9 +758,12 @@ stun_effects_light = {
 	};
 };
 
+
 stun_effects_full = {
 	private ["_unit", "_restrained_q"];
-
+	
+	
+	
 	_unit = _this select 0;
 	
 	if (stunloop) exitwith {};
@@ -760,37 +803,20 @@ stun_effects_full = {
 	if ( typeName _restrained_q ==  "BOOL") then {
 		if (!_restrained_q) then {
 			[_unit, "isstunned", false] call player_set_bool;
-			format['%1 switchmove "amovppnemstpsnonwnondnon";',_unit] call broadcast;
+			[nil,_unit,rSWITCHMOVE,"amovppnemstpsnonwnondnon"] call RE;
 		};
 	} 
 	else {
 		[_unit, "isstunned", false] call player_set_bool;
-		format['%1 switchmove "amovppnemstpsnonwnondnon";',_unit] call broadcast;
+		[nil,_unit,rSWITCHMOVE,"amovppnemstpsnonwnondnon"] call RE;
 	};
 
-};
-
-stun_drop_weapons = {
-	private ["_unit", "_weapons", "_waffens", "_pos"];
-	
-	_unit = _this select 0;
-	_weapons = weapons _unit;
-	_weapons = _weapons - nonlethalweapons;
-	
-	if (count _weapons > 0) then {
-		{_unit removeWeapon _x} forEach _weapons;
-		_waffens = createVehicle ["weaponholder", (getPosATL _unit), [], 0, "NONE"];
-		sleep 0.01;
-		_pos = [	(getPosATL _unit) select 0, (getPosATL _unit) select 1, ((getPosATL _unit) select 2) + 0.05	];
-		_waffens setPosATL _pos;
-		{_waffens addWeaponCargoGlobal [_x, 1];} foreach _weapons;
-	};
 };
 
 stun_drop_weapons = {
 	private ["_unit", "_weapons", "_holder", "_pos"];
  
-	 liafu = true;
+	 
 	 _unit = _this select 0;
 	 _weapons = weapons _unit;
 	 _weapons = _weapons - nonlethalweapons;
@@ -809,3 +835,4 @@ stun_drop_weapons = {
 	_holder setPosATL _pos;
 	{_holder addWeaponCargoGlobal [_x, 1];} foreach _weapons;
 };
+

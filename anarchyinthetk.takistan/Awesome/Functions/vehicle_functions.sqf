@@ -35,6 +35,7 @@ vehicle_set_string = {
 	
 	[_vehicle, _variable_name, _variable_value, true] call vehicle_set_string_checked;
 };
+
 vehicle_set_string_checked = {
 	private["_vehicle", "_variable_name", "_variable_value", "_checked"];
 
@@ -121,6 +122,7 @@ vehicle_set_array_checked = {
 	private["_current_value"];
 	_current_value = [_vehicle, _variable_name] call vehicle_get_array;
 	if(_checked && (str(_current_value) == str(_variable_value))) exitWith {};
+
 	
 	//player groupChat format["Saving %1 = %2", _variable_name, _variable_value];
 	_vehicle setVariable [_variable_name, _variable_value, true];
@@ -452,7 +454,6 @@ vehicle_save_stats = {
 	diag_log _str;
 	player groupChat _str;
 	*/
-	//diag_log format["item_name = %1", ([_vehicle, "item_name"] call vehicle_get_string)];
 	
 	private["_vehicle"];
 
@@ -503,7 +504,8 @@ vehicle_save_stats = {
 	[_vehicle, "engine_state", _engine_state] call vehicle_set_bool;
 	[_vehicle] call vehicle_save_gear;
 	[_vehicle] call vehicle_save_storage;
-	[_vehicle, "item_name", ([_vehicle, "item_name"] call vehicle_get_string), false] call vehicle_set_string_checked; 
+	[_vehicle, "item_name", ([_vehicle, "item_name"] call vehicle_get_string), false] call vehicle_set_string_checked;
+	
 };
 
 
@@ -542,7 +544,6 @@ vehicle_init_stats = {
 	_vehicle setDamage _damage;
 	_vehicle setFuel _fuel;
 };
-
 vehicle_set_modifications = {
 	private["_vehicle", "_item", "_silent"];
 	
@@ -686,6 +687,7 @@ vehicle_set_modifications = {
 };
 
 
+
 vehicle_save_storage = {
 	/*
 	private["_str"];
@@ -823,9 +825,11 @@ vehicle_recreate = {
 	[_data, _vehicle] call stats_compile_sequential;
 	sleep 1;
 	[_vehicle] call vehicle_init_stats;
+	
 	private["_item_name"];
 	_item_name = [_vehicle, "item_name"] call vehicle_get_string;
 	[_vehicle, _item_name, true] call vehicle_set_modifications;
+	
 	(_vehicle)
 };
 

@@ -181,7 +181,8 @@ name_tags_draw = {
 	
 	if ([_target] call player_human &&  _distance < 25) exitWith {
 		if ([_target, "has_admin_camera"] call player_get_bool) exitWith {};
-	
+		if(_target getVariable ["FA_inAgony", false])exitwith{};
+		
 		if ([_target] call player_cop) then{ 
 			_control ctrlSetStructuredText parseText format["<t size='1.2' font='Zeppelin33Italic' color='#0000ff'>%1 (%2)</t>", _target, (name _target)];
 		}
@@ -239,10 +240,11 @@ name_3d_tags_draw = {
 				_control ctrlShow false;
 			};
 
-			private["_distance", "_has_admin_camera"];
+			private["_distance", "_has_admin_camera", "_inAgony"];
 			_has_admin_camera = [_target, "has_admin_camera"] call player_get_bool;
+			_inAgony = _target getVariable ["FA_inAgony", false];
 			_distance = _target distance _player;
-			if (_distance <  5 || _has_admin_camera) exitWith {
+			if (_distance <  5 || _has_admin_camera || _inAgony) exitWith {
 				_control ctrlShow false;
 			};
 
@@ -336,7 +338,6 @@ onEachFrameHack = {
 //(this is needed so that we dont go through the full player list each time per frame)
 name_tags_side_units = [];
 name_tags_loop = {
-	//player groupChat format["name_tags_loop"];
 	private["_player"];
 	_player = player;
 	if (alive _player) then {
@@ -365,3 +366,6 @@ name_tags_loop = {
 };
 
 [] spawn name_tags_loop;
+
+
+

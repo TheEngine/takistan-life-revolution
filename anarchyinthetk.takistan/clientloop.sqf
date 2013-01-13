@@ -492,8 +492,6 @@ check_restrains = {
 	};};};
 };
 
-
-
 check_respawn_time = {
 	if (not(alive player)) exitWith {};
 	private["_interval"];
@@ -502,6 +500,32 @@ check_respawn_time = {
 	[player, "extradeadtime", -(_interval)] call player_update_scalar;
 	
 };
+
+check_rating = {
+		if ((rating player) <= 0) then {
+				player addRating ((- _rating) + 2000);
+			};
+	};
+	
+check_reveal = {
+		private["_near", "_unit", "_pos", "_x"];
+		_near = nearestObjects [(getPosATL player), ["CaManBase"], 20];
+		{
+			_unit = _x;
+			if ((player knowsAbout _unit) < 4 ) then {
+					_pos = worldToScreen (getPosATL _unit);
+					if (
+							((_pos select 0) >= 0)
+							&& ((_pos select 1) >= 0)
+							&& ((_pos select 0) <= 1)
+							&& ((_pos select 1) <= 1)
+						) then{
+								player reveal [_unit, 4];
+							};
+				};
+		}forEach _new;
+	};
+
 client_loop = {
 	private ["_client_loop_i"];
 	_client_loop_i = 0; 
@@ -524,6 +548,8 @@ client_loop = {
 		call check_smoke_grenade;
 		call check_droppable_items;
 		call check_restrains;
+		call check_rating;
+		call check_reveal;
 		sleep 0.5;
 		disableuserinput false;
 		_client_loop_i = _client_loop_i + 1;

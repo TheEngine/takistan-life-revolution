@@ -1,5 +1,5 @@
 
-A_DEBUG = { diag_log _this; };
+_A_DEBUG = { diag_log _this; };
 if !(isServer) exitwith {};
 
 if ((isNil "A_AI_ARRAY")) then {
@@ -80,12 +80,12 @@ _time = 0;
 _time_wait = 5;
 _wait = _time + (60 * _time_wait);
 
-format['SERVER_LOOP: '] call A_DEBUG;
+format['SERVER_LOOP: '] call _A_DEBUG;
 
 while {true} do {
 	if (_time >= _wait) then {
-		format[''] call A_DEBUG;
-		format['SERVER_LOOP: FPS MIN- %1 	FPS AVG- %2		TIME- %3 Minutes', diag_fpsmin, diag_fps, round(time / 60)] call A_DEBUG;
+		format[''] call _A_DEBUG;
+		format['SERVER_LOOP: FPS MIN- %1 	FPS AVG- %2		TIME- %3 Minutes', diag_fpsmin, diag_fps, round(time / 60)] call _A_DEBUG;
 	};
 		
 	[] call A_WBL_F_REFRESH_S;
@@ -100,8 +100,8 @@ while {true} do {
 	_groups = allGroups;
 		
 	if (_time >= _wait) then {
-		format['SERVER_LOOP: allGroups Count- %1	Empty- %2	West- %3	East- %4	Resistance- %5	Civilian- %6	isNull groups- %7', count _groups, {(count (units _x)) <= 0} count _groups, {(side _x) == west} count _groups, {(side _x) == east} count _groups, {(side _x) == resistance} count _groups, {(side _x) == civilian} count _groups, {isNull _x} count _groups] call A_DEBUG;
-		format['SERVER_LOOP: allGroups- %1', _groups] call A_DEBUG;
+		format['SERVER_LOOP: allGroups Count- %1	Empty- %2	West- %3	East- %4	Resistance- %5	Civilian- %6	isNull groups- %7', count _groups, {(count (units _x)) <= 0} count _groups, {(side _x) == west} count _groups, {(side _x) == east} count _groups, {(side _x) == resistance} count _groups, {(side _x) == civilian} count _groups, {isNull _x} count _groups] call _A_DEBUG;
+		format['SERVER_LOOP: allGroups- %1', _groups] call _A_DEBUG;
 	};
 		
 	{
@@ -111,7 +111,7 @@ while {true} do {
 		_count = count _units;
 		
 		if (_time >= _wait) then {
-			format['SERVER_LOOP: group- %1	units- %2	count- %3	side- %4	isNull- %5', _group, _units, _count, side _group, isNull _group] call A_DEBUG;
+			format['SERVER_LOOP: group- %1	units- %2	count- %3	side- %4	isNull- %5', _group, _units, _count, side _group, isNull _group] call _A_DEBUG;
 		};
 		
 		if (_count <= 0) then {
@@ -125,8 +125,8 @@ while {true} do {
 		
 	if (_time >= _wait) then {
 		_groups = allGroups;
-		format['SERVER_LOOP: allGroups Count- %1	Empty- %2	West- %3	East- %4	Resistance- %5	Civilian- %6	isNull groups- %7', count _groups, {(count (units _x)) <= 0} count _groups, {(side _x) == west} count _groups, {(side _x) == east} count _groups, {(side _x) == resistance} count _groups, {(side _x) == civilian} count _groups, {isNull _x} count _groups] call A_DEBUG;
-		format['SERVER_LOOP: allGroups- %1', _groups] call A_DEBUG;
+		format['SERVER_LOOP: allGroups Count- %1	Empty- %2	West- %3	East- %4	Resistance- %5	Civilian- %6	isNull groups- %7', count _groups, {(count (units _x)) <= 0} count _groups, {(side _x) == west} count _groups, {(side _x) == east} count _groups, {(side _x) == resistance} count _groups, {(side _x) == civilian} count _groups, {isNull _x} count _groups] call _A_DEBUG;
+		format['SERVER_LOOP: allGroups- %1', _groups] call _A_DEBUG;
 	};
 		
 	{
@@ -180,7 +180,7 @@ while {true} do {
 
 	if (_time >= _wait) then {
 		_wait = _time + (60 * _time_wait);
-		format[''] call A_DEBUG;
+		format[''] call _A_DEBUG;
 	};
 	
 	sleep _sleep;

@@ -245,10 +245,6 @@ gangareas           = [gangarea1,gangarea2,gangarea3];
 gang_array_name     = 0;
 gang_array_memebers = 1;
 
-//=================================================================================
-CityLocationArray   = [[CityLogic1, 500], [CityLogic2, 400], [CityLogic4, 500], [CityLogic5, 200], [Militarybase, 200]];
-respawnarray        = [respawn1,respawn2,respawn3,respawn4,respawn5,respawn6,respawn7,respawn8,respawn9,respawn10,respawn11,respawn12];
-
 //=========== cop patrol array ==========
 coppatrolarray  =
 [
@@ -471,7 +467,6 @@ speedbomb_mindur         = 10;
 speedbomb_maxdur         = 300;
 zeitbombe_mintime        = 1;
 zeitbombe_maxtime        = 10;
-HideoutLocationArray     = CityLocationArray;
 publichideoutarray       = [];
 hideoutcost              = 20000;
 marker_ausserhalb        = param1;
@@ -547,7 +542,6 @@ timeinworkplace          = 0;
 wpcapacity               = 10;
 INV_hasitemshop          = 0;
 INV_haswepshop           = 0;
-gunlicensetargets        = [t11,t12,t21,t22,t31,t32,t41,t42,t51,t52,t61,t62,t71,t72,t81,t82,t91,t92,t101,t111,t112,t121,t131,t132,t133,t134,t135];
 ["BuildingsOwnerArray", []] call stats_init_variable;
 
 if(isciv) then {

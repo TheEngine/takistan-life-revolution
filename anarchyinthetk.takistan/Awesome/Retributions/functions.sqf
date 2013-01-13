@@ -485,11 +485,11 @@ determine_retribution = {
 
 get_near_vehicle_driver =  {
 	private["_driver", "_near_vehicles"];
-	_driver = nil;
+	_driver = objNull;
 	_near_vehicles = nearestObjects [getpos player, ["LandVehicle"], 20];
 	//player groupChat format["Near VEHS: %1", _near_vehicles];
 	{
-		if ((speed _x > 10) and (not(isNull(driver _x)))) exitWith {
+		if ((speed _x > 10) and (!(isNull(driver _x)))) exitWith {
 			_driver	= driver _x;
 		};
 	} forEach _near_vehicles;
@@ -523,7 +523,7 @@ compute_death_parameters = {
 	_victim_name = (name player);
 	
 	_roadkill = false;
-	_is_driver_near = not(isNil "_near_driver");
+	_is_driver_near = !(isNull _near_driver);
 	_suicide = (_killer_name == _victim_name);
 
 		
@@ -656,7 +656,7 @@ collect_faction_reward = {
 	
 	private["_reward", "_killer"];
 	_killer = _dp select dp_killer;
-	_reward = 20000;
+	_reward = 30000;
 
 	format["[%1, %2] call faction_reward;", _killer, _reward] call broadcast;	
 };

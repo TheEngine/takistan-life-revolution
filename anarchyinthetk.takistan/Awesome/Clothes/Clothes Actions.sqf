@@ -179,6 +179,7 @@ C_change_load = {
 	private ["_class", "_side"];
 	_side = C_Side;
 	_class = _this select 0;
+	
 	([player, _class, true] call C_change)
 };
 
@@ -220,7 +221,7 @@ C_change = {
 	
 	if (not([_oldUnit] call player_human)) exitWith { call _failed_change;};
 	
-	if ((_class in pmc_skin_list) && not([player] call player_pmc_whitelist)) exitWith {
+	if ((_class in pmc_skin_list) && !([player] call player_pmc_whitelist)) exitWith {
 		player groupchat "You cannot access PMC Shops: The police chief has not added you to the whitelist";
 		call _failed_change;
 	};
@@ -236,10 +237,9 @@ C_change = {
 	_rating = rating _oldUnit;
 	_score = score _oldUnit;
 	_rank = rank _oldUnit;
-	_damage = damage _olUnit;
 	
-	_sarmor = _oldUnit getVariable "stun_armor";
-	_mask = _oldUnit getVariable "gasmask";
+	_sarmor = _oldUnit getVariable ["stun_armor", "none"];
+	_mask = _oldUnit getVariable ["gasmask", false];
 	
 	_oldUnit switchCamera "INTERNAL";
 	_dummyGroup = (group server);
@@ -277,7 +277,6 @@ C_change = {
 	_newUnit setRank _rank;
 	_newUnit addrating _rating;
 	_newUnit addscore _score;
-	_newUnit setdamage _damage;
 	
 	_oldUnit setVehicleInit format["liafu = true; this setVehicleVarName 'old_%1'; old_%1 = this;", _varname];
 	_newUnit setVehicleInit format["liafu = true; this setVehicleVarName '%1'; %1 = this;", _varname];
@@ -309,7 +308,10 @@ C_change = {
 			_group selectLeader _Gleader;
 		};		
 	};
-
+	
+	// transfer first aid amounts
+	[_oldUnit, _newUnit] call FA_transfer;
+	
 	//delete old unit
 	[_oldUnit] spawn C_delete;
 	[_dummyUnit] spawn C_delete;
@@ -343,19 +345,13 @@ C_change = {
 		C_T_Change = false;
 	};
 	
-	C_changing = false;
-	
-	_newUnit addEventHandler ["fired", {_this execVM "Awesome\EH\EH_fired.sqf"}];
-	_newUnit addEventHandler ["handleDamage", {_this execVM "Awesome\EH\EH_handledamage.sqf"}];
-	_newUnit addEventHandler ["WeaponAssembled", {_this execVM "Awesome\EH\EH_weaponassembled.sqf"}];
-	_newUnit addMPEventHandler ["MPKilled", { _this call player_handle_mpkilled }];
-	_newUnit addMPEventHandler ["MPRespawn", { _this call player_handle_mprespawn }];
-	
 	_newUnit setVariable ["stun_armor", _sarmor, true];
 	_newUnit setVariable ["gasmask", _mask, true];
 	[_newUnit, "isstunned", false] call player_set_bool;
 	role = _newUnit;
-
+	
+	C_changing = false;
+	
 	if (not(_first_time)) then {
 		titleText ["Changing Clothes", "BLACK IN", 1];
 		sleep 0.5;

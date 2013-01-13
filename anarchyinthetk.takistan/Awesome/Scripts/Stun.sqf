@@ -21,12 +21,13 @@ if (_action == 2) then {
 	_veh = _this select 6;
 	_inveh = _this select 7;
 	
+	if (_unit getVariable ["FA_inAgony", false])exitwith{};
 	if (_unit distance getMarkerpos "respawn_west" < 100) exitwith {};
 	if (_unit distance getMarkerpos "respawn_east" < 100) exitwith {};
 	if (_unit distance getMarkerpos "respawn_guerrila" < 100) exitwith {};
 	if (_unit distance getMarkerpos "respawn_civilian" < 100) exitwith {};
 
-	_armor = _unit getvariable "stun_armor";
+	_armor = _unit getvariable ["stun_armor", "none"];
 	
 	_pass = [];
 	_pass = [_unit, _shooter, _selection, _damage, _armor, _veh, _inveh, _distance];
@@ -52,7 +53,8 @@ if (_action == 3) then {
 	private ["_unit", "_man", "_men", "_currentw"];
 
 	_unit = _this select 1;
-
+	
+	if (_unit getVariable ["FA_inAgony", false])exitwith{};
 	if (_unit distance getMarkerpos "respawn_west" < 100) exitwith {};
 	if (_unit distance getMarkerpos "respawn_east" < 100) exitwith {};
 	if (_unit distance getMarkerpos "respawn_guerrila" < 100) exitwith {};
@@ -66,6 +68,8 @@ if (_action == 3) then {
 	// bailflag
 	if ((_man in shopusearray) || (_man == bailflag)) exitWith {};
 	
+	if (_man getVariable ["FA_inAgony", false])exitwith{};
+	
 	_exit = false;
 	
 	{
@@ -74,6 +78,8 @@ if (_action == 3) then {
 	} forEach Clothing_Shops;
 	
 	if (_unit in (list Jail)) then {_exit = true;};
+	
+	
 	
 	if (_exit) exitWith {};
 	

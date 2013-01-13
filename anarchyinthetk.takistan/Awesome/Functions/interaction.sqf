@@ -2152,7 +2152,6 @@ interact_vehicle_breakout = {
 	breakingout = false;
 };
 
-
 /////////////// --- Poll triggered from the adminmenu --- ///////////////
 admin_create_poll = {
 	private["_question", "_pollID", "_polltime"];
@@ -2226,8 +2225,5 @@ admin_see_poll_results = {
 	//remove variable
 	server setVariable [_pollID, nil, true];
 };
-
-
-
 
 interaction_functions_defined = true;

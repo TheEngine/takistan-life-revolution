@@ -1,15 +1,13 @@
 // fired event handler script
 // EH_fired.sqf
 
-private["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile"];
-
-_unit = _this select 0;
-_weapon	= _this select 1;
-_muzzle = _this select 2;
-_mode = _this select 3;
-_ammo = _this select 4;
-_magazine = _this select 5;
-_projectile = _this select 6;
+_unit 			= _this select 0;
+_weapon			= _this select 1;
+_muzzle			= _this select 2;
+_mode			= _this select 3;
+_ammo			= _this select 4;
+_magazine		= _this select 5;
+_projectile		= _this select 6;
 
 
 ///////////////
@@ -18,10 +16,8 @@ _projectile = _this select 6;
 
 if (vehicle player != _unit) exitwith {};
 
-private["_M_effect"];
-
-M_Round	= "";
-_M_effect = "";
+M_Round		= "";
+_M_effect	= "";
 
 player groupchat "running";
 _h = [] execVM "Awesome\Effects\mortar_effects.sqf";
@@ -60,13 +56,20 @@ if (_unit isKindOf "2b14_82mm") then {
 	};
 };
 
+
 if (player in (crew _unit)) then {
 	player groupchat format["SHOT TYPE: %1		ELEVATION: %2		AZIMUT: %3", M_Round  , M_Elevation, M_Azimut];
 };
 
+
+_unit setWeaponReloadingTime [_unit,currentWeapon _unit, 10];
+
 ///////////////
 // Round Effects
 ///////////////
+
+// _projectile = nearestObject  [getpos _unit, _ammo];
+
 
 switch _M_effect do {
 	case "HE": {

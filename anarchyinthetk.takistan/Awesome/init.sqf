@@ -1,34 +1,23 @@
-_h = [] execVM "Awesome\Paint\Paint.sqf";
-waitUntil {scriptDone _h};
-[] spawn P_init;
+#define ExecSQF(FILE) [] call compile preprocessFileLineNumbers FILE
 
-sleep 1;
+ExecSQF("Awesome\Paint\Paint.sqf");
 
-[] execVM "Awesome\Functions\gear_functions.sqf";
-[] execVM "Awesome\Functions\pos_functions.sqf";
-[] execVM "Awesome\Functions\stun_functions.sqf";
+ExecSQF("Awesome\Functions\gear_functions.sqf");
+ExecSQF("Awesome\Functions\pos_functions.sqf");
+ExecSQF("Awesome\Functions\stun_functions.sqf");
 
-[] execVM "Awesome\Effects\mortar_effects.sqf";
+ExecSQF("Awesome\Effects\mortar_effects.sqf");
 
-[] execVM "Awesome\R3F\init.sqf";
+ExecSQF("Awesome\Scripts\newactions.sqf");
 
-_h = [] execVM "Awesome\Scripts\white_black_list.sqf";
-waitUntil {scriptDone _h};
+ExecSQF("Awesome\Retributions\functions.sqf");
 
-_h = [] execVM "Awesome\Scripts\newactions.sqf"; 
-waitUntil{scriptDone _h};
+ExecSQF("Awesome\Functions\armoredsuv_functions.sqf");
+ExecSQF("Awesome\Functions\halo_functions.sqf");
+ExecSQF("Awesome\Functions\trunk_functions.sqf");
 
-_h = [] execVM "Awesome\Retributions\functions.sqf"; 
-waitUntil{scriptDone _h};
+ExecSQF("Awesome\R3F\init.sqf");
 
-_h = [] execVM "Awesome\Functions\armoredsuv_functions.sqf"; 
-waitUntil{scriptDone _h};
-
-_h = [] execVM "Awesome\Functions\halo_functions.sqf"; 
-waitUntil{scriptDone _h};
-
-_h = [] execVM "Awesome\Functions\trunk_functions.sqf"; 
-waitUntil{scriptDone _h};
 
 if (isServer) then {
 	[] execVM "Awesome\Server\Server_Loop.sqf";
@@ -103,13 +92,6 @@ M_ill_time = 60;
 M_ill_decent = 0.0075;
 
 pmc_shop_list = [pmccar, pmcair, pmcbox, fortshop2, "pmc_license_journeyman", "pmc_license_defense", "pmc_license_air"];
-
-pmc_skin_list = [];
-
-{
-	_array = [_x] call C_array_d;
-	pmc_skin_list set[(count pmc_skin_list), (_array select 1)];
-} forEach CSL_PMC_1;
 
 
 
