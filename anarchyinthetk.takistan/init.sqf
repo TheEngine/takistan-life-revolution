@@ -138,6 +138,7 @@ if(isClient) then {
 	[] ExecVM "Awesome\MountedSlots\functions.sqf";
 	["client"] execVM "bombs.sqf";
 	[] execVM "Awesome\Functions\factory_functions.sqf";
+	[] execVM "Awesome\Functions\admin_functions.sqf";
 
 	player addEventHandler ["fired", {_this execVM "Awesome\EH\EH_fired.sqf"}];
 	player addEventHandler ["handleDamage", {_this execVM "Awesome\EH\EH_handledamage.sqf"}];
